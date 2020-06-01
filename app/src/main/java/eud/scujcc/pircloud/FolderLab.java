@@ -40,9 +40,9 @@ public class FolderLab {
         return INSTANCE;
     }
 
-//    public int getSize(){
-//        return data.size();
-//    }
+    public int getSize(){
+        return data.size();
+    }
 
     public File getFile(int positon){
         return this.data.get(positon);

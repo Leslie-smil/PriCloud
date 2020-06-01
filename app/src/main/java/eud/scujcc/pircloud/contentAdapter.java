@@ -23,7 +23,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentRowHolder> {
-    private FolderLab lab ;
+    private FolderLab lab = FolderLab.getInstance() ;
     private Context context;
     private ContentClickListener listener;
 
@@ -50,8 +50,8 @@ public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentR
 
     @Override
     public int getItemCount() {
-        return 2;
-//        return lab.getSize();
+//        return 2;
+        return lab.getSize();
     }
 
 
