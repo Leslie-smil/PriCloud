@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PirCloud</string>
+    <string name="load_upload_list">传输列表</string>
+    <string name="load">下载</string>
+    <string name="upload">上传</string>
+    <string name="over_load">下载完成</string>
+    <string name="load_loading">正在下载</string>
 </resources>
