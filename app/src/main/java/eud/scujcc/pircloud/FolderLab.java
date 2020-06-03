@@ -4,8 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,17 +50,17 @@ public class FolderLab {
         //调用单例
         Retrofit retrofit = RetrofitClient.getInstance();
         FileApi api = retrofit.create(FileApi.class);
-        Call<Result<List<File>>> call = api.getAllFiles();
+        Call<Result<List<File>>> call = api.getFileList();
         //enqueue会自己生成子线程， 去执行后续代码
         call.enqueue(new Callback<Result<List<File>>>() {
             @Override
-            public void onResponse(Call<Result<List<File>>> call,
-                                   Response<Result<List<File>>> response) {
+            public void onResponse(Call<Result<List<File>>> call, Response<Result<List<File>>> response) {
                 if (response.code() == 403) {  //缺少token或token错误
+                    Log.d(TAG, String.valueOf(response.body()));
                     Message msg = new Message();
                     msg.what = MSG_FAILURE;
                     handler.sendMessage(msg);
-                } else if (null != response && null != response.body()) {
+                }else if (null != response.body()) {
                     Log.d(TAG, "从服务器得到的数据是：");
                     Log.d(TAG, response.body().toString());
                     Result<List<File>> result = response.body();

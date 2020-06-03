@@ -15,8 +15,11 @@ public class RetrofitClient {
     public static Retrofit getInstance() {
         if (INSTANCE == null) {
             Moshi moshi = new Moshi.Builder()
+                    .add(new DateAdapter())
                     .build();
+
             OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new AuthInterceptor())
                     .build();
 
             INSTANCE = new Retrofit.Builder()

@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView contenRv;
     private contentAdapter contentAdapter;
     private FolderLab lab = FolderLab.getInstance();
+    private PriPreference priPreference = PriPreference.getInstance();
 
     private Handler handler = new Handler() {
         //按快捷键Ctrl o
@@ -58,4 +59,12 @@ public class MainActivity extends AppCompatActivity {
         //把主线程的handler传递给子线程使用
         lab.getData(handler);
     }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        //退出清理缓存
+        priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
+
+    }
+
 }

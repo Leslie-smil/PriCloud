@@ -2,11 +2,7 @@ package eud.scujcc.pircloud;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -30,7 +26,7 @@ public class UpLoadActivity extends AppCompatActivity {
 
     private void uploadToServer(String filePath) {
         Retrofit retrofit = NetworkClient.getRetrofitClient(this);
-        Uploadapi uploadAPIs = retrofit.create(Uploadapi.class);
+        UploadApi uploadAPIs = retrofit.create(UploadApi.class);
         File file = new File(filePath);
         RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("upload", file.getName(), fileReqBody);
