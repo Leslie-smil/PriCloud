@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -27,7 +28,8 @@ public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentR
     private Context context;
     private ContentClickListener listener;
 
-    public contentAdapter(Context context){
+    contentAdapter(ContentClickListener lis,Context context){
+        this.listener= lis;
         this.context =  context;
     }
 
@@ -38,8 +40,7 @@ public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentR
     public contentRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rowView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.content_row,parent,false);
-        contentRowHolder holder = new contentRowHolder(rowView);
-        return holder;
+        return new contentRowHolder(rowView);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentR
 
     //自定义新接口
     public interface ContentClickListener {
-        public void onContentClick(int position);
+         void onContentClick(int position);
     }
 
 
@@ -66,11 +67,12 @@ public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentR
      */
     public class contentRowHolder extends RecyclerView.ViewHolder{
         private TextView name;
-
+        private ImageView cover1;
 
         public contentRowHolder(@NonNull View row) {
             super(row);
             this.name = row.findViewById(R.id.folder_name);
+            this.cover1 = row.findViewById(R.id.image1);
             row.setOnClickListener((v) -> {
                 int position = getLayoutPosition();
                 Log.d("PirCloud", position + "行被点击啦！");
@@ -79,7 +81,7 @@ public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentR
         }
 
         public void bind(File f){
-            this.name.setText(f.getBucketName());
+            this.name.setText(f.getKey());
         }
 
     }

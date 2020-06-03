@@ -5,13 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements contentAdapter.ContentClickListener {
     private RecyclerView contenRv;
     private contentAdapter contentAdapter;
     private FolderLab lab = FolderLab.getInstance();
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler handler = new Handler() {
         //按快捷键Ctrl o
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        contentAdapter = new contentAdapter(MainActivity.this);
+        contentAdapter = new contentAdapter(this,this);
 
         this.contenRv = findViewById(R.id.content_rv);
         this.contenRv.setAdapter(contentAdapter);
@@ -67,4 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onContentClick(int position) {
+        //TODO 文件夹跳转下一级文件夹/文件跳转文件信息
+    }
 }
