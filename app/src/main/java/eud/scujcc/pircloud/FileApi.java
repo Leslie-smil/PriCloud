@@ -10,7 +10,4 @@ import retrofit2.http.Path;
 public interface FileApi {
     @GET("/file")
     Call<Result<List<File>>> getAllFiles();
-
-
-
 }
