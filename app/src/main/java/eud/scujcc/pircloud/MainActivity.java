@@ -1,19 +1,17 @@
 package eud.scujcc.pircloud;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements contentAdapter.ContentClickListener {
     private RecyclerView contenRv;
     private contentAdapter contentAdapter;
     private FolderLab lab = FolderLab.getInstance();
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        contentAdapter = new contentAdapter(MainActivity.this);
+        contentAdapter = new contentAdapter(this, MainActivity.this);
 
         this.contenRv = findViewById(R.id.content_rv);
         this.contenRv.setAdapter(contentAdapter);
@@ -70,4 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onContentClick(int position) {
+
+    }
 }
