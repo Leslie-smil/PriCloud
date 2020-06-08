@@ -103,9 +103,11 @@ public class FolderLab {
                     Log.d(TAG, response.body().toString());
                     Result<List<File>> result = response.body();
                     data = result.getData();
+                    String path = result.getMessage();
                     //发出通知
                     Message msg = new Message();
                     msg.what = MSG_FILES;
+                    msg.obj = path;
                     handler.sendMessage(msg);
                 } else {
                     Log.w(TAG, "response没有数据！");

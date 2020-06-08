@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     private contentAdapter contentAdapter;
     private FolderLab lab = FolderLab.getInstance();
     private PriPreference priPreference = PriPreference.getInstance();
+    private String path;
 
 
     private Handler handler = new Handler() {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
             switch (msg.what) {
                 case FolderLab.MSG_FILES:
                     contentAdapter.notifyDataSetChanged();
+                    path = (String) msg.obj;
                     break;
                 case FolderLab.MSG_FAILURE:
                     failed();
@@ -80,9 +82,14 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
                 Log.d("TAG", "onContentClick: ");
             }
             if (file.getType().equals(File.TPYEISFOLDER)) {
-                //TODO 获取下一级
-                String s = file.getKey() + "/";
-                lab.getSubdirectoryList(handler, s.replace("/", "."));
+                if (path == null) {
+                    path = file.getKey() + "/";
+                    lab.getSubdirectoryList(handler, path.replace("/", "."));
+                } else {
+                    path = path + file.getKey() + "/";
+                    lab.getSubdirectoryList(handler, path.replace("/", "."));
+                }
+
             }
         }
     }
