@@ -1,5 +1,6 @@
 package eud.scujcc.pircloud;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,8 +18,10 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     private FolderLab lab = FolderLab.getInstance();
     private PriPreference priPreference = PriPreference.getInstance();
 
+
     private Handler handler = new Handler() {
         //按快捷键Ctrl o
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
@@ -70,6 +73,21 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
 
     @Override
     public void onContentClick(int position) {
+        if (ClickUtil.isFastClick()) {
+            File file = lab.getFile(position);
+            if (file.getType().equals(File.TPYEISFILE)) {
+                //TODO 显示文件信息
+                Log.d("TAG", "onContentClick: ");
+            }
+            if (file.getType().equals(File.TPYEISFOLDER)) {
+                //TODO 获取下一级
+                String s = file.getKey() + "/";
+                lab.getSubdirectoryList(handler, s.replace("/", "."));
+            }
+        }
+    }
+
+    public void search() {
 
     }
 }
