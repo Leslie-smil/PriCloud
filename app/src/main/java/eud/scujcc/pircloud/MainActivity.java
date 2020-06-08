@@ -1,16 +1,16 @@
 package eud.scujcc.pircloud;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity implements contentAdapter.ContentClickListener {
     private RecyclerView contenRv;
@@ -64,10 +64,10 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        //退出清理缓存
-        priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
-
+        //退出清理
+        priPreference.clearConfigure();
     }
+
 
     @Override
     public void onContentClick(int position) {
