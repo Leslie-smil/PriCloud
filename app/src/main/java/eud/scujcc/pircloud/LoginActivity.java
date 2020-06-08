@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case UserLab.USER_LOGIN_SUCCESS:
+                    Log.d("TAG", "handleMessage: " + msg.obj.toString());
                     loginSuccess(msg.obj);
                     break;
                 case UserLab.USER_LOGIN_FAIL:
@@ -74,10 +76,11 @@ public class LoginActivity extends AppCompatActivity {
         priPreference.setup(getApplicationContext());
     }
 
-    private void loginSuccess(Object token) {
+    private void loginSuccess(Object object) {
         if (ClickUtil.isFastClick()) {
             Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_LONG).show();
-            priPreference.saveUser(t_username, token.toString());
+            Configure configure = (Configure) object;
+            priPreference.saveConfigure(configure);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }

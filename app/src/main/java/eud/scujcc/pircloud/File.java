@@ -8,11 +8,10 @@ public class File {
     private String size;
     private String lastModified;
     private String type;
-    public static String INTERNALENDPOINT = "hkoss.fuyu.site";
-    public static String ENDPOINT = "oss-cn-hongkong.aliyuncs.com";
-    public static String accessKeyId = "LTAI4G14NsAKu8BzBSGCGmHA";
-    public static String accessKeySecret = "OG3EXeyA6w7cAlQxTk7A5riJV1xGS9";
-    public static String BucketName = "fuyu-hk-test";
+    public static String INTERNALENDPOINT = "INTERNALENDPOINT";
+    public static String ACCESSKEYID = "ACCESSKEYID";
+    public static String ACCESSKEYIDSECRET = "ACCESSKEYIDSECRET";
+    public static String BUKCKETNAME = "BUKCKETNAME";
     public static String TPYEISFILE = "File";
     public static String TPYEISFOLDER = "Folder";
 

@@ -18,4 +18,5 @@
     <string name="r_password2">确认密码</string>
     <string name="img_mayi">麻衣</string>
     <string name="r_phone">手机号</string>
+    <string name="file_icon">文件图标</string>
 </resources>

@@ -41,11 +41,11 @@ class UserLab {
         user.setPassword(password);
         Retrofit retrofit = RetrofitClient.getInstance();
         UserApi api = retrofit.create(UserApi.class);
-        Call<Result<String>> call = api.login(user);
-        call.enqueue(new Callback<Result<String>>() {
+        Call<Result<Configure>> call = api.login(user);
+        call.enqueue(new Callback<Result<Configure>>() {
             @Override
-            public void onResponse(Call<Result<String>> call, Response<Result<String>> response) {
-                Result<String> result = response.body();
+            public void onResponse(Call<Result<Configure>> call, Response<Result<Configure>> response) {
+                Result<Configure> result = response.body();
                 if (result != null) {
                     switch (result.getStatus()) {
                         case 1:
@@ -71,7 +71,7 @@ class UserLab {
             }
 
             @Override
-            public void onFailure( Call<Result<String>> call,  Throwable t) {
+            public void onFailure(Call<Result<Configure>> call, Throwable t) {
                 Log.e(TAG, "登录失败", t);
             }
         });
