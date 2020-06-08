@@ -1,30 +1,25 @@
 package eud.scujcc.pircloud;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class MainActivity extends AppCompatActivity implements contentAdapter.ContentClickListener {
     private final static String TAG = "PirCloud";
     private RecyclerView contenRv;
+    private TextView filePathTextView;
     private contentAdapter contentAdapter;
     private FolderLab lab = FolderLab.getInstance();
     private PriPreference priPreference = PriPreference.getInstance();
@@ -65,10 +60,12 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
         this.contenRv = findViewById(R.id.content_rv);
         this.contenRv.setAdapter(contentAdapter);
         this.contenRv.setLayoutManager(new LinearLayoutManager(this));
+        filePathTextView = findViewById(R.id.file_path);
         initView();
 
     }
     private void initView(){
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.bringToFront();
         //导航栏的监听器
@@ -79,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
                 onTabItemSelected(item.getItemId());//调用跳转方法
                 return true;
             }
-
         });
+        lab.getData(handler);
     }
     //跳转方法
     private void onTabItemSelected(int id){
@@ -100,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     protected void onResume() {
         super.onResume();
         //把主线程的handler传递给子线程使用
-        lab.getData(handler);
+        //
     }
     @Override
     protected void onDestroy(){
@@ -126,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
                     path = path + file.getKey() + "/";
                     lab.getSubdirectoryList(handler, path.replace("/", "."));
                 }
-
+                filePathTextView.setText(path);
             }
         }
     }
