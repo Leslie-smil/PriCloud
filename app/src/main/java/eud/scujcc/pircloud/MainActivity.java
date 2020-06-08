@@ -1,18 +1,19 @@
 package eud.scujcc.pircloud;
 
-import android.annotation.SuppressLint;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements contentAdapter.ContentClickListener {
+public class MainActivity extends AppCompatActivity {
     private RecyclerView contenRv;
     private contentAdapter contentAdapter;
     private FolderLab lab = FolderLab.getInstance();
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
 
     private Handler handler = new Handler() {
         //按快捷键Ctrl o
-        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
@@ -47,12 +47,13 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        contentAdapter = new contentAdapter(this,this);
+        contentAdapter = new contentAdapter(MainActivity.this);
 
         this.contenRv = findViewById(R.id.content_rv);
         this.contenRv.setAdapter(contentAdapter);
         this.contenRv.setLayoutManager(new LinearLayoutManager(this));
 
+//        BottomNavigationView.OnNavigationItemSelectedListener()
     }
 
     @Override
@@ -64,13 +65,9 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        //退出清理
-        priPreference.clearConfigure();
+        //退出清理缓存
+        priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
+
     }
 
-
-    @Override
-    public void onContentClick(int position) {
-        //TODO 文件夹跳转下一级文件夹/文件跳转文件信息
-    }
 }
