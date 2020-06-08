@@ -5,19 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    private final static String TAG = "PirCloud";
     private RecyclerView contenRv;
     private contentAdapter contentAdapter;
     private FolderLab lab = FolderLab.getInstance();
     private PriPreference priPreference = PriPreference.getInstance();
+    private BottomNavigationView bottomNavigationView;
 
     private Handler handler = new Handler() {
         //按快捷键Ctrl o
@@ -35,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void failed() {
-        Toast.makeText(MainActivity.this, "Token无效，禁止访问", Toast.LENGTH_LONG).show();
-        Log.w("PirCloud", "服务器禁止访问，因为token无效。");
+        Toast.makeText(MainActivity.this, "没有Token，不能访问哦", Toast.LENGTH_LONG).show();
+        Log.w("PirCloud", "无Token，禁止访问");
     }
 
 
@@ -46,14 +51,39 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         contentAdapter = new contentAdapter(MainActivity.this);
-
         this.contenRv = findViewById(R.id.content_rv);
         this.contenRv.setAdapter(contentAdapter);
         this.contenRv.setLayoutManager(new LinearLayoutManager(this));
+        initView();
 
-//        BottomNavigationView.OnNavigationItemSelectedListener()
+    }
+    private void initView(){
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.bringToFront();
+        //导航栏的监听器
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d(TAG, item.getItemId() + " item was selected-------------------");
+                onTabItemSelected(item.getItemId());//调用跳转方法
+                return true;
+            }
+
+        });
+    }
+    //跳转方法
+    private void onTabItemSelected(int id){
+        switch (id){
+            case R.id.page_1:
+                break;
+            case R.id.page_2:
+                Intent intent = new Intent(MainActivity.this, LoadActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.page_3:
+                break;
+        }
     }
 
     @Override
