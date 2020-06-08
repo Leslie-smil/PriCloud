@@ -15,7 +15,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class UpLoadActivity extends AppCompatActivity {
+class UpLoadActivity extends AppCompatActivity {
     private final static String TAG="pricloud";
     @Override
     protected void onCreate(Bundle savedInstanceState) {

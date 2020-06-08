@@ -11,6 +11,8 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class MainActivity extends AppCompatActivity {
     private RecyclerView contenRv;
     private contentAdapter contentAdapter;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         this.contenRv.setAdapter(contentAdapter);
         this.contenRv.setLayoutManager(new LinearLayoutManager(this));
 
+//        BottomNavigationView.OnNavigationItemSelectedListener()
     }
 
     @Override
