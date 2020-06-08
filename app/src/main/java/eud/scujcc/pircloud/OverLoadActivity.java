@@ -15,7 +15,7 @@ public class OverLoadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_over_load);
 
         TextView load=findViewById(R.id.load) ;
-        TextView upload=findViewById(R.id.upload);
+
 
         load.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,12 +24,6 @@ public class OverLoadActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(OverLoadActivity.this,UpLoadActivity.class);
-                startActivity(intent);
-            }
-        });
+
     }
 }
