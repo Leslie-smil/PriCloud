@@ -22,7 +22,7 @@ import retrofit2.Retrofit;
 /**
  * @author FSMG
  */
-class UserLab {
+public class UserLab {
      static final int USER_LOGIN_FAIL = -1;
      static final int USER_LOGIN_SUCCESS = 1;
      static final int USER_REGISTER_SUCCESS = 1;
@@ -36,13 +36,19 @@ class UserLab {
     }
 
     //单例模式
-    static UserLab getInstance() {
+ public    static UserLab getInstance() {
         if (null == INSTANCE) {
             INSTANCE = new UserLab();
         }
         return INSTANCE;
     }
-
+public void   getSpInfo( Callback<Result<String>> callback)
+{
+    Retrofit retrofit = RetrofitClient.getInstance();
+    UserApi api = retrofit.create(UserApi.class);
+    Call<Result<String>> call = api.spInfo();
+    call.enqueue(callback);
+}
     //User登录
     void login(String username, String password, Handler handler) {
         User user = new User();
@@ -56,12 +62,17 @@ class UserLab {
             public void onResponse(Call<Result<Configure>> call, Response<Result<Configure>> response) {
                 Result<Configure> result = response.body();
                 if (result != null) {
+
+                    Log.e("=======test","login data:"+result.toString());
                     switch (result.getStatus()) {
                         case 1:
                             Log.d(TAG, "登录成功!");
                             Message msg1 = new Message();
                             msg1.what = USER_LOGIN_SUCCESS;
                             msg1.obj = result.getData();
+
+                            Log.e("======test","login result.getData:"+ result.getData().toString());
+
                             handler.sendMessage(msg1);
                             break;
                         case -1:

@@ -2,6 +2,7 @@ package eud.scujcc.pircloud;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -14,5 +15,6 @@ public interface UserApi {
 
     @POST("/user/register")
     Call<Result<User>> register(@Body User user);
-
+    @GET("/file/info")
+    Call<Result<String>> spInfo();
 }

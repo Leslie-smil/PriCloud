@@ -7,6 +7,8 @@ public class Configure {
     public String accessKeyId;
     public String accessKeySecret;
 
+    private User user;
+
     @Override
     public String toString() {
         return "Configure{" +
@@ -14,8 +16,16 @@ public class Configure {
                 ", internalendpoint='" + internalendpoint + '\'' +
                 ", bucketName='" + bucketName + '\'' +
                 ", accessKeyId='" + accessKeyId + '\'' +
-                ", accessKeySecret='" + accessKeySecret + '\'' +
+                ", accessKeySecret='" + accessKeySecret + '\'' +user+
                 '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getToken() {
