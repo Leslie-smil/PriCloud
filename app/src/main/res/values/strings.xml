@@ -19,5 +19,5 @@
     <string name="img_mayi">麻衣</string>
     <string name="r_phone">手机号</string>
     <string name="file_icon">文件图标</string>
-    <string name="root_path"> </string>
+    <string name="root_path">根目录</string>
 </resources>
