@@ -31,7 +31,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/load__loading"
+                android:id="@+id/title"
                 android:layout_width="409dp"
                 android:layout_height="30dp">
 

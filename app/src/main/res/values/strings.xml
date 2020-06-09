@@ -19,4 +19,7 @@
     <string name="img_mayi">麻衣</string>
     <string name="r_phone">手机号</string>
     <string name="file_icon">文件图标</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
