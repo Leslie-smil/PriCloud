@@ -1,5 +1,6 @@
 package eud.scujcc.pircloud;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
@@ -10,11 +11,14 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 
@@ -23,6 +27,7 @@ public class LoadActivity extends AppCompatActivity {
     private Button button;
     private long downloadID;
     private TextView textView1,textView2;
+    private BottomNavigationView bottomNavigationView;
 
     private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
@@ -39,6 +44,7 @@ public class LoadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_load);
         button=findViewById(R.id.l_download);
         textView1=findViewById(R.id.load);
+        initView();//调用导航栏监听器
         registerReceiver(onDownloadComplete,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +60,7 @@ public class LoadActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -73,4 +80,35 @@ public class LoadActivity extends AppCompatActivity {
         DownloadManager downloadManager= (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         downloadID = downloadManager.enqueue(request);
     }
+
+    private void initView(){
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.bringToFront();
+        //导航栏的监听器
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d(TAG, item.getItemId() + " item was selected-------------------");
+                onTabItemSelected(item.getItemId());//调用跳转方法
+                return true;
+            }
+
+        });
+        bottomNavigationView.getMenu().getItem(1).setChecked(true);//设置默认选中item
+    }
+    //跳转方法
+    private void onTabItemSelected(int id) {
+        switch (id) {
+            case R.id.page_1:
+                Intent intent = new Intent(LoadActivity.this, MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.page_2:
+
+                break;
+            case R.id.page_3:
+                break;
+        }
+    }
+
 }

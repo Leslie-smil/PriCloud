@@ -6,21 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".LoadActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/load_footer"
-        android:layout_width="410dp"
-        android:layout_height="53dp"
-        android:background="#EC0A0A"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
 
     <ScrollView
         android:layout_width="411dp"
         android:layout_height="677dp"
-        app:layout_constraintBottom_toTopOf="@+id/load_footer"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
