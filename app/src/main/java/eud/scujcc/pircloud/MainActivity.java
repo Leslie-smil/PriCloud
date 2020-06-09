@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
                 startActivity(intent);
                 break;
             case R.id.page_3:
+                Intent intent2 = new Intent(MainActivity.this, PersonalActivity.class);
+                startActivity(intent2);
                 break;
         }
     }

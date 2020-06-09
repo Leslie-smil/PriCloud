@@ -48,6 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none|textImeMultiLine"
+
+            android:text="chenfei"
             android:singleLine="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -70,6 +72,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="123456"
             android:inputType="textPassword"
             android:singleLine="true" />
 

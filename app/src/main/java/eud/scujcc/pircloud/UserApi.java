@@ -14,4 +14,5 @@ public interface UserApi {
 
     @POST("/user/register")
     Call<Result<User>> register(@Body User user);
+
 }
