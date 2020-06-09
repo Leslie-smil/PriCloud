@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class OverLoadActivity extends AppCompatActivity {
-
+    private TextView textView1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
