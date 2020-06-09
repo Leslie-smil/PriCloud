@@ -39,11 +39,12 @@ public class LoadActivity extends AppCompatActivity {
         }
     };
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
         button=findViewById(R.id.l_download);
-        textView1=findViewById(R.id.load);
+        textView1=(TextView) findViewById(R.id.load_upload);
+        textView2=findViewById(R.id.load_overload);
         initView();//调用导航栏监听器
         registerReceiver(onDownloadComplete,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         button.setOnClickListener(new View.OnClickListener() {
@@ -52,13 +53,24 @@ public class LoadActivity extends AppCompatActivity {
                 beginDownload();
             }
         });
-        textView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(LoadActivity.this,UpLoadActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (ClickUtil.isFastClick()) {
+            textView1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(LoadActivity.this, UpLoadActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        if (ClickUtil.isFastClick()) {
+            textView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(LoadActivity.this, OverLoadActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
@@ -104,7 +116,6 @@ public class LoadActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.page_2:
-
                 break;
             case R.id.page_3:
                 break;
