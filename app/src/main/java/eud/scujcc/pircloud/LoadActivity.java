@@ -2,6 +2,7 @@ package eud.scujcc.pircloud;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -11,6 +12,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,11 +25,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.io.File;
 
 public class LoadActivity extends AppCompatActivity {
-    private final static String TAG="pricloud";
+    private final static String TAG = "PirCloud";
     private Button button;
     private long downloadID;
-    private TextView textView1,textView2;
+    private TextView textView1, textView2;
     private BottomNavigationView bottomNavigationView;
+    private Fragment[] mFragmensts;
+
 
     private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
@@ -38,14 +42,15 @@ public class LoadActivity extends AppCompatActivity {
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
-        button=findViewById(R.id.l_download);
-        textView1=findViewById(R.id.load);
-        initView();//调用导航栏监听器
-        registerReceiver(onDownloadComplete,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        button = findViewById(R.id.l_download);
+        textView1 = findViewById(R.id.load);
+
+        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,11 +60,12 @@ public class LoadActivity extends AppCompatActivity {
         textView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(LoadActivity.this,UpLoadActivity.class);
+                Intent intent = new Intent(LoadActivity.this, UpLoadActivity.class);
                 startActivity(intent);
             }
         });
     }
+
 
     @Override
     public void onDestroy() {
@@ -67,9 +73,9 @@ public class LoadActivity extends AppCompatActivity {
         unregisterReceiver(onDownloadComplete);
     }
 
-    private void beginDownload(){
-        File file=new File(getExternalFilesDir(null),"Dummy");
-        DownloadManager.Request request=new DownloadManager.Request(Uri.parse("http://speedtest.ftp.otenet.gr/files/test10Mb.db"))
+    private void beginDownload() {
+        File file = new File(getExternalFilesDir(null), "Dummy");
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse("http://speedtest.ftp.otenet.gr/files/test10Mb.db"))
                 .setTitle("Dummy File")
                 .setDescription("Downloading")
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
@@ -77,38 +83,9 @@ public class LoadActivity extends AppCompatActivity {
                 .setAllowedOverMetered(true)
                 .setShowRunningNotification(true)
                 .setAllowedOverRoaming(true);
-        DownloadManager downloadManager= (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         downloadID = downloadManager.enqueue(request);
     }
-
-    private void initView(){
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.bringToFront();
-        //导航栏的监听器
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Log.d(TAG, item.getItemId() + " item was selected-------------------");
-                onTabItemSelected(item.getItemId());//调用跳转方法
-                return true;
-            }
-
-        });
-        bottomNavigationView.getMenu().getItem(1).setChecked(true);//设置默认选中item
-    }
-    //跳转方法
-    private void onTabItemSelected(int id) {
-        switch (id) {
-            case R.id.page_1:
-                Intent intent = new Intent(LoadActivity.this, MainActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.page_2:
-
-                break;
-            case R.id.page_3:
-                break;
-        }
-    }
-
 }
+
+
