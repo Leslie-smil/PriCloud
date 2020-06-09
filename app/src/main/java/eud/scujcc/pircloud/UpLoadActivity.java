@@ -1,10 +1,6 @@
 package eud.scujcc.pircloud;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
@@ -12,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.MediaMetadataEditor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +19,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.ServiceException;
@@ -33,16 +31,6 @@ import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 
-import java.io.File;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 public class UpLoadActivity extends AppCompatActivity {
     private final static String TAG="pricloud";
     public OSS oss;
@@ -50,6 +38,7 @@ public class UpLoadActivity extends AppCompatActivity {
     private Uri uri;
     public static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
     public Button button;
+    PriPreference preference = PriPreference.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +77,9 @@ public class UpLoadActivity extends AppCompatActivity {
 
 
     public void simpleupload() {
+        Configure configure = preference.getConfigure();
         // 构造上传请求。
-        PutObjectRequest put = new PutObjectRequest(eud.scujcc.pircloud.File.BUKCKETNAME, "<objectName>", "<uploadFilePath>");
+        PutObjectRequest put = new PutObjectRequest(configure.getBucketName(), "<objectName>", "<uploadFilePath>");
         Log.d(TAG, "URI :"+uri);
 // 文件元信息的设置是可选的。
 // ObjectMetadata metadata = new ObjectMetadata();
