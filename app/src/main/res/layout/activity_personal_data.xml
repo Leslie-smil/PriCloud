@@ -47,21 +47,23 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="账号"
+            android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/et_username"
-            android:layout_width="208dp"
-            android:layout_height="38dp"
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="137dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="28dp"
+            android:text="chenfei"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintStart_toEndOf="@+id/textView11"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" />
+            app:layout_constraintVertical_bias="0.421" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -82,21 +84,24 @@
             android:layout_marginBottom="8dp"
             android:text="手机号"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/et_phone"
+        <TextView
+            android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:ems="10"
             android:inputType="number"
+            android:text="19950211491"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.473" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
