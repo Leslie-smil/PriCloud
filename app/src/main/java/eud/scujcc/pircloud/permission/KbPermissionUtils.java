@@ -115,12 +115,14 @@ public class KbPermissionUtils {
      * 跳转到权限设置界面
      */
     private static void getAppDetailSettingIntent(Context context) {
+
+//
 //        Intent intent = new Intent(Settings.ACTION_SETTINGS);
 //        context.startActivity(intent);
 //        return;
-
-        // vivo 点击设置图标>加速白名单>我的app
-        //      点击软件管理>软件管理权限>软件>我的app>信任该软件
+//
+//         vivo 点击设置图标>加速白名单>我的app
+//              点击软件管理>软件管理权限>软件>我的app>信任该软件
 //        Intent appIntent = context.getPackageManager().getLaunchIntentForPackage("com.iqoo.secure");
 //        if (appIntent != null) {
 //            context.startActivity(appIntent);
@@ -146,6 +148,9 @@ public class KbPermissionUtils {
 //            intent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
 //        }
 //        context.startActivity(intent);
+
+
+
         Intent intent = null;
         if (DeviceUtils.getManufacturer().equals("huawei")) {
             intent = huaweiApi(context);
