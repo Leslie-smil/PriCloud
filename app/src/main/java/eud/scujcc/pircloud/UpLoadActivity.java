@@ -18,6 +18,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
 import eud.scujcc.pircloud.permission.KbPermission;
 import eud.scujcc.pircloud.permission.KbPermissionListener;
 import eud.scujcc.pircloud.permission.KbPermissionUtils;
@@ -46,6 +48,7 @@ import eud.scujcc.pircloud.permission.KbPermissionUtils;
 public class UpLoadActivity extends AppCompatActivity {
     private final static String TAG="pricloud";
     private BottomNavigationView bottomNavigationView;
+
     public OSS oss;
     private static final int CHOOSE_FILE_CODE = 0;
     private Uri uri;
@@ -105,6 +108,7 @@ public class UpLoadActivity extends AppCompatActivity {
         credentialProvider = new OSSPlainTextAKSKCredentialProvider(configure.getAccessKeyId(), configure.getAccessKeySecret());
         Log.d(TAG, "onCreate: " + credentialProvider.toString());
         initView();
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,6 +163,7 @@ public class UpLoadActivity extends AppCompatActivity {
                 break;
         }
     }
+
 
     public void simpleUpload(String url) {
 
