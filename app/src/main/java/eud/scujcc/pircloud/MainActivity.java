@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     protected void onDestroy(){
         super.onDestroy();
         //退出清理缓存
-        priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
+        //priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
 
     }
 
