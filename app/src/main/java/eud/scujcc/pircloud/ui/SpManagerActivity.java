@@ -17,7 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SpManagerActivity  extends Activity {
-     TextView total,used,surplus;
+     TextView used,surplus;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
