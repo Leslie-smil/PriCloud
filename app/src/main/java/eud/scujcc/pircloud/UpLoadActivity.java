@@ -24,12 +24,19 @@ import androidx.core.app.ActivityCompat;
 
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
+import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
+import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
+
+import eud.scujcc.pircloud.permission.KbPermission;
+import eud.scujcc.pircloud.permission.KbPermissionListener;
+import eud.scujcc.pircloud.permission.KbPermissionUtils;
 
 public class UpLoadActivity extends AppCompatActivity {
     private final static String TAG="pricloud";
@@ -37,22 +44,29 @@ public class UpLoadActivity extends AppCompatActivity {
     private static final int CHOOSE_FILE_CODE = 0;
     private Uri uri;
     public static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
+    public static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 1;
     public Button button;
     PriPreference preference = PriPreference.getInstance();
+    Configure configure = preference.getConfigure();
+    OSSCredentialProvider credentialProvider;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
-
+        context = this;
+        preference.setup(getApplicationContext());
         button=findViewById(R.id.button);
+        credentialProvider = new OSSPlainTextAKSKCredentialProvider(configure.getAccessKeyId(), configure.getAccessKeySecret());
+        Log.d(TAG, "onCreate: " + credentialProvider.toString());
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ActivityCompat.checkSelfPermission(UpLoadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                         == PackageManager.PERMISSION_DENIED) {
-                    simpleupload();
+
                     // 判断是否需要显示提示信息
                     if (ActivityCompat.shouldShowRequestPermissionRationale(UpLoadActivity.this,
                             Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -63,33 +77,30 @@ public class UpLoadActivity extends AppCompatActivity {
                                 REQUEST_CODE_READ_EXTERNAL_STORAGE);
                     }
                 } else {
-
                     chooseFile();
-
-
                 }
             }
-        });
 
+
+        });
     }
 
 
+    public void simpleUpload(String url) {
 
-
-    public void simpleupload() {
-        Configure configure = preference.getConfigure();
         // 构造上传请求。
-        PutObjectRequest put = new PutObjectRequest(configure.getBucketName(), "<objectName>", "<uploadFilePath>");
-        Log.d(TAG, "URI :"+uri);
+
+        PutObjectRequest put = new PutObjectRequest(configure.getBucketName(), "test", uri.getPath());
+        Log.d(TAG, "URL :" + url);
 // 文件元信息的设置是可选的。
 // ObjectMetadata metadata = new ObjectMetadata();
 // metadata.setContentType("application/octet-stream"); // 设置content-type。
 // metadata.setContentMD5(BinaryUtil.calculateBase64Md5(uploadFilePath)); // 校验MD5。
 // put.setMetadata(metadata);
+        oss = new OSSClient(getApplicationContext(), "hkoss.fuyu.site", credentialProvider);
 
         try {
             PutObjectResult putResult = oss.putObject(put);
-
             Log.d("PutObject", "UploadSuccess");
             Log.d("ETag", putResult.getETag());
             Log.d("RequestId", putResult.getRequestId());
@@ -104,24 +115,29 @@ public class UpLoadActivity extends AppCompatActivity {
             Log.e(TAG,"RawMessage"+ e.getRawMessage());
         }
     }
-    private void resumeupload(){
+
+    private void resumeUpload(String url) {
         // 构造上传请求。
-        PutObjectRequest put = new PutObjectRequest(eud.scujcc.pircloud.File.BUKCKETNAME, "<objectName>", "<uploadFilePath>");
+        Configure configure = preference.getConfigure();
+        Log.d(TAG, "resumeupload: " + configure.getBucketName());
+        oss = new OSSClient(getApplicationContext(), "oss-cn-hongkong.aliyuncs.com", credentialProvider);
+
+        PutObjectRequest put = new PutObjectRequest(configure.getBucketName(), "test.jpg", url);
 
 // 异步上传时可以设置进度回调。
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
             public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+                Log.d(TAG, "currentSize: " + currentSize + " totalSize: " + totalSize);
             }
         });
 
         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                Log.d("PutObject", "UploadSuccess");
-                Log.d("ETag", result.getETag());
-                Log.d("RequestId", result.getRequestId());
+                Log.d(TAG, "UploadSuccess");
+                Log.d(TAG, result.getETag());
+                Log.d(TAG, result.getRequestId());
             }
 
             @Override
@@ -133,15 +149,15 @@ public class UpLoadActivity extends AppCompatActivity {
                 }
                 if (serviceException != null) {
                     // 服务异常。
-                    Log.e("ErrorCode", serviceException.getErrorCode());
-                    Log.e("RequestId", serviceException.getRequestId());
-                    Log.e("HostId", serviceException.getHostId());
-                    Log.e("RawMessage", serviceException.getRawMessage());
+                    Log.e(TAG, serviceException.getErrorCode());
+                    Log.e(TAG, serviceException.getRequestId());
+                    Log.e(TAG, serviceException.getHostId());
+                    Log.e(TAG, serviceException.getRawMessage());
                 }
             }
         });
 // task.cancel(); // 可以取消任务。
-// task.waitUntilFinished(); // 等待任务完成。
+        task.waitUntilFinished(); // 等待任务完成。
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @androidx.annotation.NonNull String[] permissions, @androidx.annotation.NonNull int[] grantResults) {
@@ -154,6 +170,7 @@ public class UpLoadActivity extends AppCompatActivity {
         }
     }
     private void chooseFile() {
+
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*").addCategory(Intent.CATEGORY_OPENABLE);
         try {
@@ -168,6 +185,40 @@ public class UpLoadActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CHOOSE_FILE_CODE) {
                 uri = data.getData();
+                if (KbPermissionUtils.needRequestPermission()) { //判断是否需要动态申请权限
+                    KbPermission.with(this)
+                            .requestCode(100)
+                            .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE) //需要申请的权限(支持不定长参数)
+                            .callBack(new KbPermissionListener() {
+                                @Override
+                                public void onPermit(int requestCode, String... permission) { //允许权限的回调
+                                    new Thread() {
+                                        @Override
+                                        public void run() {
+                                            super.run();
+                                            Log.d(TAG, "run: " + uri);
+                                            resumeUpload(getPath(getApplicationContext(), uri));//处理具体下载过程
+                                        }
+                                    }.start();
+                                }
+
+                                @Override
+                                public void onCancel(int requestCode, String... permission) { //拒绝权限的回调
+                                    KbPermissionUtils.goSetting(context); //跳转至当前app的权限设置界面
+                                }
+                            })
+                            .send();
+                } else {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            resumeUpload(getPath(getApplicationContext(), uri));//处理具体下载过程
+                        }
+                    }.start();
+                    //处理具体下载过程
+                }
+
             }
         } else {
             Log.e(TAG, "onActivityResult() error, resultCode: " + resultCode);
@@ -237,16 +288,7 @@ public class UpLoadActivity extends AppCompatActivity {
         return null;
     }
 
-    /**
-     * Get the value of the data column for this Uri. This is useful for
-     * MediaStore Uris, and other file-based ContentProviders.
-     *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
-     * @param selectionArgs (Optional) Selection arguments used in the query.
-     * @return The value of the _data column, which is typically a file path.
-     */
+
     public static String getDataColumn(Context context, Uri uri, String selection,
                                        String[] selectionArgs) {
 
@@ -294,5 +336,4 @@ public class UpLoadActivity extends AppCompatActivity {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
-
 }
