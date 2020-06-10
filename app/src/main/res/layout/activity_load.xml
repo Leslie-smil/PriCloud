@@ -77,10 +77,13 @@
 
                 <Button
                     android:id="@+id/l_download"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
                     android:text="@string/load"
                     android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

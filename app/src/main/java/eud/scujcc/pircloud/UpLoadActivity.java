@@ -17,6 +17,8 @@ import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -36,6 +38,8 @@ import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvide
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 import eud.scujcc.pircloud.permission.KbPermission;
 import eud.scujcc.pircloud.permission.KbPermissionListener;
@@ -43,6 +47,8 @@ import eud.scujcc.pircloud.permission.KbPermissionUtils;
 
 public class UpLoadActivity extends AppCompatActivity {
     private final static String TAG="pricloud";
+    private BottomNavigationView bottomNavigationView;
+
     public OSS oss;
     private static final int CHOOSE_FILE_CODE = 0;
     private Uri uri;
@@ -101,6 +107,7 @@ public class UpLoadActivity extends AppCompatActivity {
         button=findViewById(R.id.button);
         credentialProvider = new OSSPlainTextAKSKCredentialProvider(configure.getAccessKeyId(), configure.getAccessKeySecret());
         Log.d(TAG, "onCreate: " + credentialProvider.toString());
+        initView();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +132,38 @@ public class UpLoadActivity extends AppCompatActivity {
 
         });
     }
+
+    private void initView(){
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.bringToFront();
+        //导航栏的监听器
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d(TAG, item.getItemId() + " item was selected-------------------");
+                onTabItemSelected(item.getItemId());//调用跳转方法
+                return true;
+            }
+
+        });
+        bottomNavigationView.getMenu().getItem(1).setChecked(true);//设置默认选中item
+    }
+    //跳转方法
+    private void onTabItemSelected(int id) {
+        switch (id) {
+            case R.id.page_1:
+                Intent intent = new Intent(UpLoadActivity.this, MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.page_2:
+                break;
+            case R.id.page_3:
+                Intent intent1 = new Intent(UpLoadActivity.this,PersonalActivity.class);
+                startActivity(intent1);
+                break;
+        }
+    }
+
 
     public void simpleUpload(String url) {
 
