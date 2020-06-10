@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -50,7 +53,22 @@ public class UpLoadActivity extends AppCompatActivity {
     Configure configure = preference.getConfigure();
     OSSCredentialProvider credentialProvider;
     Context context;
+    FolderLab folderLab = FolderLab.getInstance();
+    private Handler handler = new Handler() {
+        //按快捷键Ctrl o
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case FolderLab.MSG_FILES:
+                    Toast.makeText(UpLoadActivity.this, "上传完成", Toast.LENGTH_LONG).show();
 
+                    Toast.makeText(UpLoadActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
+                    break;
+                case FolderLab.MSG_FAILURE:
+                    break;
+            }
+        }
+    };
     public static String getDataColumn(Context context, Uri uri, String selection,
                                        String[] selectionArgs) {
 
@@ -150,11 +168,13 @@ public class UpLoadActivity extends AppCompatActivity {
 
     private void resumeUpload(String url) {
         // 构造上传请求。
+        String[] s = url.split("/");
+
         Configure configure = preference.getConfigure();
         Log.d(TAG, "resumeupload: " + configure.getBucketName());
         oss = new OSSClient(getApplicationContext(), "oss-cn-hongkong.aliyuncs.com", credentialProvider);
 
-        PutObjectRequest put = new PutObjectRequest(configure.getBucketName(), "test.jpg", url);
+        PutObjectRequest put = new PutObjectRequest(configure.getBucketName(), s[s.length - 1], url);
 
 // 异步上传时可以设置进度回调。
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
@@ -283,6 +303,8 @@ public class UpLoadActivity extends AppCompatActivity {
                                             super.run();
                                             Log.d(TAG, "run: " + uri);
                                             resumeUpload(getPath(getApplicationContext(), uri));//处理具体下载过程
+
+                                            folderLab.refresh(handler);
                                         }
                                     }.start();
                                 }

@@ -1,12 +1,6 @@
 package eud.scujcc.pircloud;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,14 +8,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.hz.android.easyadapter.EasyAdapter;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hz.android.easyadapter.EasyAdapter;
 
 public class MainActivity extends AppCompatActivity implements contentAdapter.ContentClickListener {
     private final static String TAG = "PirCloud";
@@ -72,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
         //多选模式
         contentAdapter.setSelectMode(EasyAdapter.SelectMode.MULTI_SELECT);
         initView();
+        lab.getData(handler);
     }
     private void initView(){
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -107,13 +101,13 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     protected void onResume() {
         super.onResume();
         //把主线程的handler传递给子线程使用
-        lab.getData(handler);
+        lab.refresh(handler);
     }
     @Override
     protected void onDestroy(){
         super.onDestroy();
         //退出清理缓存
-        priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
+        // priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
 
     }
 
