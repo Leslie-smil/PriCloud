@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">PriCloud</string>
+    <string name="navigation_home">主页</string>
+    <string name="navigation_load">传输</string>
+    <string name="navigation_my">我的</string>
+    <string name="load_upload_list">传输列表</string>
+    <string name="load">下载</string>
+    <string name="upload">上传</string>
+    <string name="over_load">下载完成</string>
+    <string name="load_loading">正在下载</string>
+    <string name="login_username">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="login">登录</string>
+    <string name="login_register">立即注册</string>
+    <string name="register_username">用户名</string>
+    <string name="login_findPassword">找回密码</string>
+    <string name="r_password">密码</string>
+    <string name="r_password2">确认密码</string>
+    <string name="img_mayi">麻衣</string>
+    <string name="r_phone">手机号</string>
+    <string name="file_icon">文件图标</string>
+    <string name="root_path">根目录</string>
+</resources>

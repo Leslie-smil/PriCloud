@@ -1,0 +1,50 @@
+package eud.scujcc.pircloud;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+class UpLoadActivity extends AppCompatActivity {
+    private final static String TAG="pricloud";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_upload);
+
+    }
+
+    private void uploadToServer(String filePath) {
+        Retrofit retrofit = NetworkClient.getRetrofitClient(this);
+        Uploadapi uploadAPIs = retrofit.create(Uploadapi.class);
+        File file = new File(filePath);
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("upload", file.getName(), fileReqBody);
+        RequestBody description = RequestBody.create(MediaType.parse("text/plain"), "image-type");
+        Call call = uploadAPIs.uploadImage(part, description);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Toast.makeText(UpLoadActivity.this, "Upload Success!", Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(UpLoadActivity.this, "Upload Failure!", Toast.LENGTH_LONG).show();
+            }
+        });
+}
+}
