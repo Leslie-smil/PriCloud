@@ -77,20 +77,23 @@ String TAG="====PersonalActivity";
             }
 
         });
+        bottomNavigationView.getMenu().getItem(2).setChecked(true);//设置默认选中item
+
 
     }
     //跳转方法
     private void onTabItemSelected(int id){
         switch (id){
             case R.id.page_1:
-                break;
-            case R.id.page_2:
                 Intent intent = new Intent(PersonalActivity.this, MainActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.page_3:
+            case R.id.page_2:
                 Intent intent2 = new Intent(PersonalActivity.this, LoadActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.page_3:
+
                 break;
         }
     }

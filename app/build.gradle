@@ -46,4 +46,7 @@ dependencies {
     implementation 'com.aliyun.dpa:oss-android-sdk:+'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:23.1.1'
+    implementation 'org.yczbj:YCRefreshViewLib:2.5.8'
+    implementation 'com.hz.androids.easyadapter:library:1.1'
+
 }

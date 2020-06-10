@@ -1,10 +1,10 @@
 package eud.scujcc.pircloud;
 
+import java.net.URL;
 import java.util.List;
+
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface FileApi {
@@ -15,7 +15,7 @@ public interface FileApi {
     @GET("/file/s/{name}")
     Call<Result<List<File>>> searchFilesByName(@Path("name") String name);
     @GET("file/download/{id}")
-    Call<Result<List<File>>> getDownloadUrl(@Path("id") String id);
+    Call<Result<URL>> getDownloadUrl(@Path("id") String id);
     @GET("/file/info")
     Call<Result<List<File>>> getBucketInfo();
     @GET("/file/refresh")
