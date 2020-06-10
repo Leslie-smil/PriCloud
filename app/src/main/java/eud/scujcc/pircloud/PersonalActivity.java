@@ -33,6 +33,7 @@ public class PersonalActivity extends Activity implements View.OnClickListener {
     private BottomNavigationView bottomNavigationView;
 
 
+
 TextView  phone;
 String TAG="====PersonalActivity";
     @Override
@@ -109,7 +110,9 @@ String TAG="====PersonalActivity";
             case  R.id.btnManager:
                 toPageActivity(SpManagerActivity.class);
                 break;
-            case  R.id.logout:break;
+            case  R.id.logout:
+                toPageActivity(LoginActivity.class);
+                break;
             case  R.id.btnRecycle:
                 toPageActivity(RecycleActivity.class);
                 break;
@@ -131,5 +134,6 @@ String TAG="====PersonalActivity";
 
         startActivity(intent);
     }
+
 
 }
