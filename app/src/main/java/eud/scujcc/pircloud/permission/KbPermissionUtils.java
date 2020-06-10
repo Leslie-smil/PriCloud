@@ -17,7 +17,6 @@ import androidx.core.app.AppOpsManagerCompat;
 import androidx.core.content.ContextCompat;
 
 
-
 /**
  * Description：
  * Created by kang on 2017/10/26.
@@ -35,46 +34,6 @@ public class KbPermissionUtils {
             }
         }
         return instance;
-    }
-    /**
-     * 检查权限检查
-     *
-     * @param context
-     * @param permissions
-     * @return
-     */
-    public boolean checkPermission(Context context, String... permissions) {
-        for (String permission : permissions) {
-            // 判断当前该权限是否允许
-            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-
-        for (String permission : permissions) {
-            String op = AppOpsManagerCompat.permissionToOp(permission);
-            if (TextUtils.isEmpty(op)) continue;
-            int result = AppOpsManagerCompat.noteProxyOp(context, op, context.getPackageName());
-            if (result == AppOpsManagerCompat.MODE_IGNORED) {
-                return false;
-            }
-            result = ContextCompat.checkSelfPermission(context, permission);
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * 权限请求方法
-     *
-     * @param activity
-     * @param code
-     * @param permissions
-     */
-    public void requestPermission(Activity activity, int code, String... permissions) {
-        ActivityCompat.requestPermissions(activity, permissions, code);
     }
 
     /**
@@ -115,14 +74,12 @@ public class KbPermissionUtils {
      * 跳转到权限设置界面
      */
     private static void getAppDetailSettingIntent(Context context) {
-
-//
 //        Intent intent = new Intent(Settings.ACTION_SETTINGS);
 //        context.startActivity(intent);
 //        return;
-//
-//         vivo 点击设置图标>加速白名单>我的app
-//              点击软件管理>软件管理权限>软件>我的app>信任该软件
+
+        // vivo 点击设置图标>加速白名单>我的app
+        //      点击软件管理>软件管理权限>软件>我的app>信任该软件
 //        Intent appIntent = context.getPackageManager().getLaunchIntentForPackage("com.iqoo.secure");
 //        if (appIntent != null) {
 //            context.startActivity(appIntent);
@@ -148,9 +105,6 @@ public class KbPermissionUtils {
 //            intent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
 //        }
 //        context.startActivity(intent);
-
-
-
         Intent intent = null;
         if (DeviceUtils.getManufacturer().equals("huawei")) {
             intent = huaweiApi(context);
@@ -252,5 +206,46 @@ public class KbPermissionUtils {
      */
     private static Intent samsungApi(Context context) {
         return defaultApi(context);
+    }
+
+    /**
+     * 检查权限检查
+     *
+     * @param context
+     * @param permissions
+     * @return
+     */
+    public boolean checkPermission(Context context, String... permissions) {
+        for (String permission : permissions) {
+            // 判断当前该权限是否允许
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+
+        for (String permission : permissions) {
+            String op = AppOpsManagerCompat.permissionToOp(permission);
+            if (TextUtils.isEmpty(op)) continue;
+            int result = AppOpsManagerCompat.noteProxyOp(context, op, context.getPackageName());
+            if (result == AppOpsManagerCompat.MODE_IGNORED) {
+                return false;
+            }
+            result = ContextCompat.checkSelfPermission(context, permission);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 权限请求方法
+     *
+     * @param activity
+     * @param code
+     * @param permissions
+     */
+    public void requestPermission(Activity activity, int code, String... permissions) {
+        ActivityCompat.requestPermissions(activity, permissions, code);
     }
 }

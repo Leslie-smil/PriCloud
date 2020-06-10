@@ -15,19 +15,14 @@ import java.util.List;
  * Created by kang on 2017/10/26.
  */
 public class KbPermission {
-//    private Activity activity;
+    private static KbPermission instance = new KbPermission();
+    private static List<Integer> codes = new ArrayList<>();
+    //    private Activity activity;
     //持有弱引用HandlerActivity,GC回收时会被回收掉.解决内存泄漏的问题
     private WeakReference<Activity> mWeakActivity;
-
     private int requestCode;
-
     private KbPermissionListener listener;
-
     private String[] permissions;
-
-    private static KbPermission instance = new KbPermission();
-
-    private static List<Integer> codes = new ArrayList<>();
 
     private KbPermission() {
     }
@@ -66,6 +61,32 @@ public class KbPermission {
     public static KbPermission with(@NonNull Fragment fragment) {
         instance.setActivity(fragment.getActivity());
         return instance;
+    }
+
+    /**
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    public static void onRequestPermissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (instance == null) {
+            return;
+        }
+        for (int j = 0; j < codes.size(); j++) {
+            if (requestCode == codes.get(j)) {
+                // 遍历请求时的所有权限
+                for (int i = 0; i < grantResults.length; i++) {
+                    // 授权
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        instance.getListener().onPermit(codes.get(j), permissions);
+                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        instance.getListener().onCancel(codes.get(j), permissions);
+                    }
+
+                }
+                codes.remove(codes.get(j));
+            }
+        }
     }
 
     /**
@@ -123,32 +144,6 @@ public class KbPermission {
             KbPermissionUtils.getInstance().requestPermission(instance.getWeakActivity().get(), instance.getRequestCode(), instance.getPermissions());
         }
 
-    }
-
-    /**
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
-    public static void onRequestPermissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (instance == null) {
-            return;
-        }
-        for (int j = 0; j < codes.size(); j++) {
-            if (requestCode == codes.get(j)) {
-                // 遍历请求时的所有权限
-                for (int i = 0; i < grantResults.length; i++) {
-                    // 授权
-                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        instance.getListener().onPermit(codes.get(j), permissions);
-                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        instance.getListener().onCancel(codes.get(j), permissions);
-                    }
-
-                }
-                codes.remove(codes.get(j));
-            }
-        }
     }
 
 

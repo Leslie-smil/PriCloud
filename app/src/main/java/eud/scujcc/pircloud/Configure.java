@@ -6,8 +6,7 @@ public class Configure {
     public String bucketName;
     public String accessKeyId;
     public String accessKeySecret;
-
-    private User user;
+    public User user;
 
     @Override
     public String toString() {
@@ -16,7 +15,8 @@ public class Configure {
                 ", internalendpoint='" + internalendpoint + '\'' +
                 ", bucketName='" + bucketName + '\'' +
                 ", accessKeyId='" + accessKeyId + '\'' +
-                ", accessKeySecret='" + accessKeySecret + '\'' +user+
+                ", accessKeySecret='" + accessKeySecret + '\'' +
+                ", user=" + user +
                 '}';
     }
 
