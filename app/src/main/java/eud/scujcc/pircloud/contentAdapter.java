@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hz.android.easyadapter.EasyAdapter;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -23,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentRowHolder> {
+public class contentAdapter extends EasyAdapter<contentAdapter.contentRowHolder> {
     private FolderLab lab = FolderLab.getInstance() ;
     private Context context;
     private ContentClickListener listener;
@@ -43,11 +45,22 @@ public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentR
         return new contentRowHolder(rowView);
     }
 
+    /**
+     * 使用新继承的方法
+     * @param holder
+     * @param position
+     */
     @Override
-    public void onBindViewHolder(@NonNull contentRowHolder holder, int position) {
+    public void whenBindViewHolder(contentRowHolder holder, int position) {
         File f = lab.getFile(position);
         holder.bind(f);
     }
+
+//    @Override
+//    public void onBindViewHolder(@NonNull contentRowHolder holder, int position) {
+//        File f = lab.getFile(position);
+//        holder.bind(f);
+//    }
 
     @Override
     public int getItemCount() {

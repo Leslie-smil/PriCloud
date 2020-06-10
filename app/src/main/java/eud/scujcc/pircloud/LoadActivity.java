@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +46,7 @@ public class LoadActivity extends AppCompatActivity {
         textView2=findViewById(R.id.load_overload);
         initView();//调用导航栏监听器
         registerReceiver(onDownloadComplete,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +104,6 @@ public class LoadActivity extends AppCompatActivity {
                 onTabItemSelected(item.getItemId());//调用跳转方法
                 return true;
             }
-
         });
         bottomNavigationView.getMenu().getItem(1).setChecked(true);//设置默认选中item
     }
@@ -118,8 +117,9 @@ public class LoadActivity extends AppCompatActivity {
             case R.id.page_2:
                 break;
             case R.id.page_3:
+                Intent intent1 = new Intent(LoadActivity.this,PersonalActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
-
 }

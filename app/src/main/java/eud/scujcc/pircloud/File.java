@@ -1,6 +1,8 @@
 package eud.scujcc.pircloud;
 
-public class File {
+import java.io.Serializable;
+
+public class File implements Serializable {
     private String bucketName;
     private String id;
     private String key;
@@ -8,12 +10,22 @@ public class File {
     private String size;
     private String lastModified;
     private String type;
+    private String filepath;
     public static String INTERNALENDPOINT = "INTERNALENDPOINT";
     public static String ACCESSKEYID = "ACCESSKEYID";
     public static String ACCESSKEYIDSECRET = "ACCESSKEYIDSECRET";
     public static String BUKCKETNAME = "BUKCKETNAME";
     public static String TPYEISFILE = "File";
     public static String TPYEISFOLDER = "Folder";
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
 
     @Override
     public String toString() {
