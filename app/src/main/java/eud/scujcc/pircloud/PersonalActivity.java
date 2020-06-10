@@ -32,6 +32,7 @@ public class PersonalActivity extends Activity implements View.OnClickListener {
     LinearLayout btnSetting;
     private BottomNavigationView bottomNavigationView;
 
+
 TextView  phone;
 String TAG="====PersonalActivity";
     @Override

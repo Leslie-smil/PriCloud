@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import eud.scujcc.pircloud.R;
 import eud.scujcc.pircloud.Result;
 import eud.scujcc.pircloud.UserLab;
+import eud.scujcc.pircloud.utils.StringUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +24,8 @@ public class SpManagerActivity  extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_capacity);
-
+        used=findViewById(R.id.used);
+        surplus=findViewById(R.id.used);
         UserLab.getInstance().getSpInfo(new Callback<Result<String>>() {
             @Override
             public void onResponse(Call<Result<String>> call, Response<Result<String>> response) {
@@ -38,6 +40,32 @@ public class SpManagerActivity  extends Activity {
                     if(result.getStatus()==1)
                     {
                         long  userSize=Long.parseLong(result.getData());
+                      //  dwSpaces(userSize,0);
+                       double dwSize=0d;
+                        String showUseSize;
+
+                        dwSize=userSize/1024;
+                        if(dwSize<1024)
+                        {
+                            showUseSize= StringUtils.formatDouble4(dwSize)+"KB";
+                        }else
+                        {
+                            dwSize= dwSize/1024;
+
+                            if(dwSize<1024)
+                            {
+                                showUseSize= StringUtils.formatDouble4(dwSize)+"M";
+                            }else
+                            {
+                                dwSize= dwSize/1024;
+                                showUseSize= StringUtils.formatDouble4(dwSize)+"G";
+
+                            }
+                        }
+
+                        used.setText(showUseSize);
+                        double  spSize=(40*1024*1024*1024-userSize)/Math.pow(1024d,3d);
+                        surplus.setText(spSize+"G");
                     }
                 }
 
@@ -49,5 +77,24 @@ public class SpManagerActivity  extends Activity {
 
             }
         });
+    }
+    String[] dw=new String[]{"kb","M","G"};
+
+    /**
+     * 递归计算合适的空间单位
+     * @param size
+     * @param point
+     */
+    private void  dwSpaces(double size,int point)
+    {
+        size=size/1024;
+        if(size>1024&&point<dw.length)
+        {
+            dwSpaces(size,point++);
+        }else
+        {
+            used.setText(StringUtils.formatDouble4(size)+dw[point]);
+
+        }
     }
 }

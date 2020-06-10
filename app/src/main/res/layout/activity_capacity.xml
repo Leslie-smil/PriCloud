@@ -60,6 +60,7 @@
             android:ems="10"
             android:inputType="number"
             android:textSize="20sp"
+            android:text="40G"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView26"
             app:layout_constraintTop_toTopOf="parent"
