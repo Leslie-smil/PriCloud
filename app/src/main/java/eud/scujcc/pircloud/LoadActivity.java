@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,7 +104,6 @@ public class LoadActivity extends AppCompatActivity {
                 onTabItemSelected(item.getItemId());//调用跳转方法
                 return true;
             }
-
         });
         bottomNavigationView.getMenu().getItem(1).setChecked(true);//设置默认选中item
     }
@@ -124,5 +122,4 @@ public class LoadActivity extends AppCompatActivity {
                 break;
         }
     }
-
 }
