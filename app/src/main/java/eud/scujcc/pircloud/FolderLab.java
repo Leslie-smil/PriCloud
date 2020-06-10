@@ -38,12 +38,16 @@ public class FolderLab {
         return INSTANCE;
     }
 
+    public void setData(List<File> files) {
+        this.data = files;
+
+    }
     public int getSize(){
         return data.size();
     }
 
-    public File getFile(int positon){
-        return this.data.get(positon);
+    public File getFile(int position) {
+        return data.get(position);
     }
 
     public void getData(Handler handler) {
@@ -81,5 +85,41 @@ public class FolderLab {
             }
         });
     }
+
+    public void getSubdirectoryList(Handler handler, String filepath) {
+        Log.d(TAG, "getSubdirectoryList: " + filepath);
+        Retrofit retrofit = RetrofitClient.getInstance();
+        FileApi api = retrofit.create(FileApi.class);
+        Call<Result<List<File>>> call = api.getSubdirectoryList(filepath);
+        call.enqueue(new Callback<Result<List<File>>>() {
+            @Override
+            public void onResponse(Call<Result<List<File>>> call, Response<Result<List<File>>> response) {
+                if (response.code() == 403) {  //缺少token或token错误
+                    Message msg = new Message();
+                    msg.what = MSG_FAILURE;
+                    handler.sendMessage(msg);
+                } else if (null != response.body()) {
+                    Log.d(TAG, "从服务器得到的数据是：");
+                    Log.d(TAG, response.body().toString());
+                    Result<List<File>> result = response.body();
+                    data = result.getData();
+                    String path = result.getMessage();
+                    //发出通知
+                    Message msg = new Message();
+                    msg.what = MSG_FILES;
+                    msg.obj = path;
+                    handler.sendMessage(msg);
+                } else {
+                    Log.w(TAG, "response没有数据！");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result<List<File>>> call, Throwable t) {
+
+            }
+        });
+    }
+
 
 }

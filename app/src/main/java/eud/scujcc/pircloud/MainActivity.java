@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.hz.android.easyadapter.EasyAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,8 +65,13 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
         this.contenRv = findViewById(R.id.content_rv);
         this.contenRv.setAdapter(contentAdapter);
         this.contenRv.setLayoutManager(new LinearLayoutManager(this));
+        //点击模式
+        contentAdapter.setSelectMode(EasyAdapter.SelectMode.CLICK);
+        //单选模式
+        contentAdapter.setSelectMode(EasyAdapter.SelectMode.SINGLE_SELECT);
+        //多选模式
+        contentAdapter.setSelectMode(EasyAdapter.SelectMode.MULTI_SELECT);
         initView();
-
     }
     private void initView(){
         bottomNavigationView = findViewById(R.id.bottom_navigation);
