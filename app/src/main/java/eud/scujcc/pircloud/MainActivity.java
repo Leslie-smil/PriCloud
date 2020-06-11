@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.hz.android.easyadapter.EasyAdapter;
 
 public class MainActivity extends AppCompatActivity implements contentAdapter.ContentClickListener {
     private final static String TAG = "PirCloud";
@@ -23,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     private FolderLab lab = FolderLab.getInstance();
     private PriPreference priPreference = PriPreference.getInstance();
     private BottomNavigationView bottomNavigationView;
+    File file;
+    String path;
 
     private Handler handler = new Handler() {
         //按快捷键Ctrl o
@@ -45,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     }
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,16 +57,18 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
         this.contenRv = findViewById(R.id.content_rv);
         this.contenRv.setAdapter(contentAdapter);
         this.contenRv.setLayoutManager(new LinearLayoutManager(this));
-        //点击模式
-        contentAdapter.setSelectMode(EasyAdapter.SelectMode.CLICK);
-        //单选模式
-        contentAdapter.setSelectMode(EasyAdapter.SelectMode.SINGLE_SELECT);
-        //多选模式
-        contentAdapter.setSelectMode(EasyAdapter.SelectMode.MULTI_SELECT);
+//        //点击模式
+//        contentAdapter.setSelectMode(EasyAdapter.SelectMode.CLICK);
+//        //单选模式
+//        contentAdapter.setSelectMode(EasyAdapter.SelectMode.SINGLE_SELECT);
+//        //多选模式
+//        contentAdapter.setSelectMode(EasyAdapter.SelectMode.MULTI_SELECT);
         initView();
         lab.getData(handler);
     }
-    private void initView(){
+
+    //导航栏
+    private void initView() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.bringToFront();
         //导航栏的监听器
@@ -78,13 +79,14 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
                 onTabItemSelected(item.getItemId());//调用跳转方法
                 return true;
             }
-
         });
     }
+
     //跳转方法
-    private void onTabItemSelected(int id){
-        switch (id){
+    private void onTabItemSelected(int id) {
+        switch (id) {
             case R.id.page_1:
+                lab.getData(handler);
                 break;
             case R.id.page_2:
                 Intent intent = new Intent(MainActivity.this, LoadActivity.class);
@@ -103,16 +105,36 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
         //把主线程的handler传递给子线程使用
         lab.refresh(handler);
     }
+
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         //退出清理缓存
         // priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
-
     }
 
     @Override
     public void onContentClick(int position) {
+        Log.d(TAG, "onContentClick: " + position);
+        if (ClickUtil.isFastClick()) {
+            file = lab.getFile(position);
+            if (file.getType().equals(File.TPYEISFILE)) {
+                //TODO 显示文件信息
+                Log.d("TAG", "onContentClick: ");
+            }
+            if (file.getType().equals(File.TPYEISFOLDER)) {
+                //TODO 获取下一级
+                String s = file.getKey() + "/";
+                lab.getSubdirectoryList(handler, s.replace("/", "."));
+                if (path == null) {
+                    path = file.getKey() + "/";
+                    lab.getSubdirectoryList(handler, path.replace("/", "."));
+                } else {
+                    path = path + file.getKey() + "/";
+                    lab.getSubdirectoryList(handler, path.replace("/", "."));
+                }
 
+            }
+        }
     }
 }

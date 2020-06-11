@@ -18,8 +18,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
-
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -40,15 +38,12 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-
 import eud.scujcc.pircloud.permission.KbPermission;
 import eud.scujcc.pircloud.permission.KbPermissionListener;
 import eud.scujcc.pircloud.permission.KbPermissionUtils;
 
 public class UpLoadActivity extends AppCompatActivity {
     private final static String TAG="pricloud";
-    private BottomNavigationView bottomNavigationView;
-
     public OSS oss;
     private static final int CHOOSE_FILE_CODE = 0;
     private Uri uri;
@@ -60,6 +55,8 @@ public class UpLoadActivity extends AppCompatActivity {
     OSSCredentialProvider credentialProvider;
     Context context;
     FolderLab folderLab = FolderLab.getInstance();
+    private BottomNavigationView bottomNavigationView;
+
     private Handler handler = new Handler() {
         //按快捷键Ctrl o
         @Override
@@ -75,6 +72,7 @@ public class UpLoadActivity extends AppCompatActivity {
             }
         }
     };
+
     public static String getDataColumn(Context context, Uri uri, String selection,
                                        String[] selectionArgs) {
 
@@ -98,42 +96,7 @@ public class UpLoadActivity extends AppCompatActivity {
         return null;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload);
-        context = this;
-        preference.setup(getApplicationContext());
-        button=findViewById(R.id.button);
-        credentialProvider = new OSSPlainTextAKSKCredentialProvider(configure.getAccessKeyId(), configure.getAccessKeySecret());
-        Log.d(TAG, "onCreate: " + credentialProvider.toString());
-        initView();
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(UpLoadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_DENIED) {
-
-                    // 判断是否需要显示提示信息
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(UpLoadActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                    } else {
-                        ActivityCompat.requestPermissions(UpLoadActivity.this,
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                REQUEST_CODE_READ_EXTERNAL_STORAGE);
-                    }
-                } else {
-                    chooseFile();
-                }
-            }
-
-
-        });
-    }
-
-    private void initView(){
+    private void initView() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.bringToFront();
         //导航栏的监听器
@@ -144,10 +107,10 @@ public class UpLoadActivity extends AppCompatActivity {
                 onTabItemSelected(item.getItemId());//调用跳转方法
                 return true;
             }
-
         });
         bottomNavigationView.getMenu().getItem(1).setChecked(true);//设置默认选中item
     }
+
     //跳转方法
     private void onTabItemSelected(int id) {
         switch (id) {
@@ -158,42 +121,45 @@ public class UpLoadActivity extends AppCompatActivity {
             case R.id.page_2:
                 break;
             case R.id.page_3:
-                Intent intent1 = new Intent(UpLoadActivity.this,PersonalActivity.class);
+                Intent intent1 = new Intent(UpLoadActivity.this, PersonalActivity.class);
                 startActivity(intent1);
                 break;
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_upload);
+        context = this;
+        preference.setup(getApplicationContext());
+        button=findViewById(R.id.button);
+        credentialProvider = new OSSPlainTextAKSKCredentialProvider(configure.getAccessKeyId(), configure.getAccessKeySecret());
+        Log.d(TAG, "onCreate: " + credentialProvider.toString());
 
-    public void simpleUpload(String url) {
+        initView();
 
-        // 构造上传请求。
+        button.setOnClickListener(v -> {
+            if (ActivityCompat.checkSelfPermission(UpLoadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED) {
 
-        PutObjectRequest put = new PutObjectRequest(configure.getBucketName(), "test", uri.getPath());
-        Log.d(TAG, "URL :" + url);
-// 文件元信息的设置是可选的。
-// ObjectMetadata metadata = new ObjectMetadata();
-// metadata.setContentType("application/octet-stream"); // 设置content-type。
-// metadata.setContentMD5(BinaryUtil.calculateBase64Md5(uploadFilePath)); // 校验MD5。
-// put.setMetadata(metadata);
-        oss = new OSSClient(getApplicationContext(), "hkoss.fuyu.site", credentialProvider);
+                // 判断是否需要显示提示信息
+                if (ActivityCompat.shouldShowRequestPermissionRationale(UpLoadActivity.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-        try {
-            PutObjectResult putResult = oss.putObject(put);
-            Log.d("PutObject", "UploadSuccess");
-            Log.d("ETag", putResult.getETag());
-            Log.d("RequestId", putResult.getRequestId());
-        } catch (ClientException e) {
-            // 本地异常，如网络异常等。
-            e.printStackTrace();
-        } catch (ServiceException e) {
-            // 服务异常。
-            Log.e(TAG, "RequestId"+e.getRequestId());
-            Log.e(TAG,"ErrorCode"+ e.getErrorCode());
-            Log.e(TAG,"HostId"+ e.getHostId());
-            Log.e(TAG,"RawMessage"+ e.getRawMessage());
-        }
+                } else {
+                    ActivityCompat.requestPermissions(UpLoadActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_CODE_READ_EXTERNAL_STORAGE);
+                }
+            } else {
+                chooseFile();
+            }
+        });
+
     }
+
+    //选择文件
     @Override
     public void onRequestPermissionsResult(int requestCode, @androidx.annotation.NonNull String[] permissions, @androidx.annotation.NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_READ_EXTERNAL_STORAGE) {
@@ -261,6 +227,7 @@ public class UpLoadActivity extends AppCompatActivity {
             Toast.makeText(this, "木有文件管理器啊-_-!!", Toast.LENGTH_SHORT).show();
         }
     }
+
     public static String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -389,7 +356,6 @@ public class UpLoadActivity extends AppCompatActivity {
     public static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
-
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
