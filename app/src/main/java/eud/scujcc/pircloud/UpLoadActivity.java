@@ -30,13 +30,14 @@ import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
-import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Objects;
 
 import eud.scujcc.pircloud.permission.KbPermission;
 import eud.scujcc.pircloud.permission.KbPermissionListener;
@@ -182,12 +183,7 @@ public class UpLoadActivity extends AppCompatActivity {
         PutObjectRequest put = new PutObjectRequest(configure.getBucketName(), s[s.length - 1], url);
 
 // 异步上传时可以设置进度回调。
-        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-            @Override
-            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                Log.d(TAG, "currentSize: " + currentSize + " totalSize: " + totalSize);
-            }
-        });
+        put.setProgressCallback((request, currentSize, totalSize) -> Log.d(TAG, "currentSize: " + currentSize + " totalSize: " + totalSize));
 
         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
@@ -308,7 +304,7 @@ public class UpLoadActivity extends AppCompatActivity {
                                         public void run() {
                                             super.run();
                                             Log.d(TAG, "run: " + uri);
-                                            resumeUpload(getPath(getApplicationContext(), uri));//处理具体下载过程
+                                            resumeUpload(Objects.requireNonNull(getPath(getApplicationContext(), uri)));//处理具体下载过程
 
                                             folderLab.refresh(handler);
                                         }
