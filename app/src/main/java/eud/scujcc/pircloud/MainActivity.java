@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     private final static String TAG = "PirCloud";
     private RecyclerView contenRv;
     private contentAdapter contentAdapter;
+    private TextView file_path;
     private FolderLab lab = FolderLab.getInstance();
     private PriPreference priPreference = PriPreference.getInstance();
     private BottomNavigationView bottomNavigationView;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
         this.contenRv = findViewById(R.id.content_rv);
         this.contenRv.setAdapter(contentAdapter);
         this.contenRv.setLayoutManager(new LinearLayoutManager(this));
+        file_path = findViewById(R.id.file_path);
 //        //点击模式
 //        contentAdapter.setSelectMode(EasyAdapter.SelectMode.CLICK);
 //        //单选模式
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     private void onTabItemSelected(int id) {
         switch (id) {
             case R.id.page_1:
+                file_path.setText(path = "");
                 lab.getData(handler);
                 break;
             case R.id.page_2:
@@ -123,14 +127,14 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
                 Log.d("TAG", "onContentClick: ");
             }
             if (file.getType().equals(File.TPYEISFOLDER)) {
-                //TODO 获取下一级
-                String s = file.getKey() + "/";
-                lab.getSubdirectoryList(handler, s.replace("/", "."));
+                //TODO 获取下一级文件夹
                 if (path == null) {
                     path = file.getKey() + "/";
+                    file_path.setText(path);
                     lab.getSubdirectoryList(handler, path.replace("/", "."));
                 } else {
                     path = path + file.getKey() + "/";
+                    file_path.setText(path);
                     lab.getSubdirectoryList(handler, path.replace("/", "."));
                 }
             }
