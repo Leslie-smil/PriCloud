@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
     protected void onResume() {
         super.onResume();
         //把主线程的handler传递给子线程使用
-        lab.refresh(handler);
+//        lab.refresh(handler);
     }
 
     @Override
@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements contentAdapter.Co
                     path = path + file.getKey() + "/";
                     lab.getSubdirectoryList(handler, path.replace("/", "."));
                 }
-
             }
         }
     }
