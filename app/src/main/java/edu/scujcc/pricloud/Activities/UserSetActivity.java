@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import edu.scujcc.pricloud.R;
 
-public class SetingActivity extends AppCompatActivity {
+public class UserSetActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

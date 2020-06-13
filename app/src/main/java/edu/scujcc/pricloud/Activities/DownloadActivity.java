@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import edu.scujcc.pricloud.R;
 
-public class OverLoadActivity extends AppCompatActivity {
+public class DownloadActivity extends AppCompatActivity {
     private TextView textView1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class OverLoadActivity extends AppCompatActivity {
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(OverLoadActivity.this, LoadActivity.class);
+                Intent intent = new Intent(DownloadActivity.this, LoadActivity.class);
                 startActivity(intent);
             }
         });

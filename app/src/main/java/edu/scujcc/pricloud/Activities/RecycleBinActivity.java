@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import edu.scujcc.pricloud.R;
 
-public class RecycleActivity extends Activity {
+public class RecycleBinActivity extends Activity {
 
 
     @Override

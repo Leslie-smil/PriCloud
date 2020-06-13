@@ -47,7 +47,7 @@ import edu.scujcc.pricloud.Permission.KbPermissionUtils;
 import edu.scujcc.pricloud.PriPreference;
 import edu.scujcc.pricloud.R;
 
-public class UpLoadActivity extends AppCompatActivity {
+public class UploadActivity extends AppCompatActivity {
     private final static String TAG="pricloud";
     public OSS oss;
     private static final int CHOOSE_FILE_CODE = 0;
@@ -68,9 +68,9 @@ public class UpLoadActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case FolderLab.MSG_FILES:
-                    Toast.makeText(UpLoadActivity.this, "上传完成", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UploadActivity.this, "上传完成", Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(UpLoadActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(UploadActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
                     break;
                 case FolderLab.MSG_FAILURE:
                     break;
@@ -120,13 +120,13 @@ public class UpLoadActivity extends AppCompatActivity {
     private void onTabItemSelected(int id) {
         switch (id) {
             case R.id.page_1:
-                Intent intent = new Intent(UpLoadActivity.this, MainActivity.class);
+                Intent intent = new Intent(UploadActivity.this, MyFilesActivity.class);
                 startActivity(intent);
                 break;
             case R.id.page_2:
                 break;
             case R.id.page_3:
-                Intent intent1 = new Intent(UpLoadActivity.this, PersonalActivity.class);
+                Intent intent1 = new Intent(UploadActivity.this, PersonalActivity.class);
                 startActivity(intent1);
                 break;
         }
@@ -145,15 +145,15 @@ public class UpLoadActivity extends AppCompatActivity {
         initView();
 
         button.setOnClickListener(v -> {
-            if (ActivityCompat.checkSelfPermission(UpLoadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ActivityCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_DENIED) {
 
                 // 判断是否需要显示提示信息
-                if (ActivityCompat.shouldShowRequestPermissionRationale(UpLoadActivity.this,
+                if (ActivityCompat.shouldShowRequestPermissionRationale(UploadActivity.this,
                         Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
                 } else {
-                    ActivityCompat.requestPermissions(UpLoadActivity.this,
+                    ActivityCompat.requestPermissions(UploadActivity.this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                             REQUEST_CODE_READ_EXTERNAL_STORAGE);
                 }

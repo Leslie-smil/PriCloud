@@ -17,6 +17,8 @@ public class MyOSSFile implements Serializable {
     public static String BUKCKETNAME = "BUKCKETNAME";
     public static String TPYEISFILE = "MyOSSFile";
     public static String TPYEISFOLDER = "Folder";
+    public final static String TAG = "PriCloud";
+    public static String TPYEISUPPER = "Upper";
 
     public String getFilepath() {
         return filepath;

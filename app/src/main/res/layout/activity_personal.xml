@@ -24,7 +24,7 @@
         <ImageView
             android:id="@+id/head"
             android:layout_width="60dp"
-            android:layout_height="48dp"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -34,11 +34,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/phone"
+            android:id="@+id/user_name"
             android:layout_width="74dp"
             android:layout_height="22dp"
             android:layout_marginStart="16dp"
-            android:text="TextView"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/head"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,9 +52,9 @@
             android:layout_width="106dp"
             android:layout_height="40dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/shape_round_zise"
+            android:background="@drawable/shape_round_size"
             android:textColor="@android:color/white"
-            android:text="管理空间"
+            android:text="@string/mg_space"
             />
 
     </LinearLayout>
@@ -122,11 +121,11 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/shezhi"
+            android:id="@+id/setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="设置"
+            android:text="@string/setting"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView9"
@@ -140,25 +139,10 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="200dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/shape_round_zise"
-        android:text="退出登录"
+        android:background="@drawable/shape_round_size"
+        android:text="@string/drop"
         android:textColor="@android:color/white"
         android:textSize="24sp" />
-
-    <View
-        android:layout_width="1dp"
-        android:layout_weight="1"
-        android:layout_height="0dp"/>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
-
 
 </LinearLayout>
 

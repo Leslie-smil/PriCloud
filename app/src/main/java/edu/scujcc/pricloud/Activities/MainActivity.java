@@ -1,150 +1,102 @@
 package edu.scujcc.pricloud.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import edu.scujcc.pricloud.Adapter.contentAdapter;
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.scujcc.pricloud.Adapter.ViewPagerAdapter;
+import edu.scujcc.pricloud.Fragment.DownloadFragment;
+import edu.scujcc.pricloud.Fragment.MyFilesFragment;
+import edu.scujcc.pricloud.Fragment.PersonalFragment;
 import edu.scujcc.pricloud.Lab.FolderLab;
 import edu.scujcc.pricloud.Model.MyOSSFile;
-import edu.scujcc.pricloud.PriPreference;
 import edu.scujcc.pricloud.R;
-import edu.scujcc.pricloud.Utils.ClickUtil;
 
-public class MainActivity extends AppCompatActivity implements edu.scujcc.pricloud.Adapter.contentAdapter.ContentClickListener {
-    private final static String TAG = "PirCloud";
-    private RecyclerView contenRv;
-    private contentAdapter contentAdapter;
-    private TextView file_path;
-    private FolderLab lab = FolderLab.getInstance();
-    private PriPreference priPreference = PriPreference.getInstance();
+public class MainActivity extends AppCompatActivity {
+    private MyFilesFragment myFilesFragment;
+    private DownloadFragment downloadFragment;
+    private PersonalFragment personalFragment;
+    private List<Fragment> fragmentList;
+    private FragmentManager fragmentManager;
+    private ViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter;
     private BottomNavigationView bottomNavigationView;
-    MyOSSFile myOSSFile;
-    String path;
-
-    private Handler handler = new Handler() {
-        //按快捷键Ctrl o
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case FolderLab.MSG_FILES:
-                    contentAdapter.notifyDataSetChanged();
-                    break;
-                case FolderLab.MSG_FAILURE:
-                    failed();
-                    break;
-            }
-        }
-    };
-
-    private void failed() {
-        Toast.makeText(MainActivity.this, "没有Token，不能访问哦", Toast.LENGTH_LONG).show();
-        Log.w("PirCloud", "无Token，禁止访问");
-    }
+    private FolderLab folderLab = FolderLab.getInstance();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
 
+        myFilesFragment = MyFilesFragment.getInstance();
+        downloadFragment = DownloadFragment.getInstance();
+        personalFragment = PersonalFragment.getInstance();
 
-        contentAdapter = new contentAdapter(this, MainActivity.this);
+        fragmentList = new ArrayList<>();
+        fragmentList.add(myFilesFragment);
+        fragmentList.add(downloadFragment);
+        fragmentList.add(personalFragment);
 
-        this.contenRv = findViewById(R.id.content_rv);
-        this.contenRv.setAdapter(contentAdapter);
-        this.contenRv.setLayoutManager(new LinearLayoutManager(this));
-        file_path = findViewById(R.id.file_path);
-//        //点击模式
-//        contentAdapter.setSelectMode(EasyAdapter.SelectMode.CLICK);
-//        //单选模式
-//        contentAdapter.setSelectMode(EasyAdapter.SelectMode.SINGLE_SELECT);
-//        //多选模式
-//        contentAdapter.setSelectMode(EasyAdapter.SelectMode.MULTI_SELECT);
+        viewPager = findViewById(R.id.main_viewpager);
+
+        fragmentManager = getSupportFragmentManager();
+        viewPagerAdapter = new ViewPagerAdapter(fragmentManager, fragmentList);
+
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         initView();
-        lab.getData(handler);
     }
 
-    //导航栏
-    private void initView() {
+    public void initView() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.bringToFront();
-        //导航栏的监听器
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Log.d(TAG, item.getItemId() + " item was selected-------------------");
-                onTabItemSelected(item.getItemId());//调用跳转方法
-                return true;
-            }
+        bottomNavigationView.getMenu().getItem(0).setChecked(false);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Log.d(MyOSSFile.TAG, item.getItemId() + " item was selected-------------------");
+            onTabItemSelected(item.getItemId());//调用跳转方法
+            return false;
         });
     }
 
-    //跳转方法
-    private void onTabItemSelected(int id) {
-        switch (id) {
+    private void onTabItemSelected(int itemId) {
+        switch (itemId) {
             case R.id.page_1:
-                file_path.setText(path = "");
-                lab.getData(handler);
+                myFilesFragment.toHome();
+                viewPager.setCurrentItem(0);
                 break;
             case R.id.page_2:
-                Intent intent = new Intent(MainActivity.this, LoadActivity.class);
-                startActivity(intent);
+                viewPager.setCurrentItem(1);
                 break;
             case R.id.page_3:
-                Intent intent2 = new Intent(MainActivity.this, PersonalActivity.class);
-                startActivity(intent2);
+                viewPager.setCurrentItem(2);
                 break;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //把主线程的handler传递给子线程使用
-//        lab.refresh(handler);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //退出清理缓存
-        // priPreference.saveUser(priPreference.currentUser(UserLab.USER_CURRENT),null);
-    }
-
-    @Override
-    public void onContentClick(int position) {
-        Log.d(TAG, "onContentClick: " + position);
-        if (ClickUtil.isFastClick()) {
-            myOSSFile = lab.getFile(position);
-            if (myOSSFile.getType().equals(MyOSSFile.TPYEISFILE)) {
-                //TODO 显示文件信息
-                Log.d("TAG", "onContentClick: ");
-            }
-            if (myOSSFile.getType().equals(MyOSSFile.TPYEISFOLDER)) {
-                //TODO 获取下一级文件夹
-                if (path == null) {
-                    path = myOSSFile.getKey() + "/";
-                    file_path.setText(path);
-                    lab.getSubdirectoryList(handler, path.replace("/", "."));
-                } else {
-                    path = path + myOSSFile.getKey() + "/";
-                    file_path.setText(path);
-                    lab.getSubdirectoryList(handler, path.replace("/", "."));
-                }
-            }
         }
     }
 }

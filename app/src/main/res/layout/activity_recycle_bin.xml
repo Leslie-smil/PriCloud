@@ -48,7 +48,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/content_rv"
+        android:id="@+id/content_rv1"
         android:layout_width="411dp"
         android:layout_height="668dp"
         app:layout_constraintBottom_toBottomOf="parent"

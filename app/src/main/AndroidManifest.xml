@@ -6,39 +6,37 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-
     <application
-        android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="edu.scujcc.pricloud.Activities.SpManagerActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activities.UserInfoActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activities.RecycleActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activities.SetingActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activities.OverLoadActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activities.LoadActivity" />
-        <activity android:name="edu.scujcc.pricloud.Adapter.contentAdapter" />
-        <activity android:name="edu.scujcc.pricloud.Activities.RegisterActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activities.PersonalActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activities.UpLoadActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activities.LoginActivity">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.SpManagerActivity" />
+        <activity android:name=".Activities.UserInfoActivity" />
+        <activity android:name=".Activities.RecycleBinActivity" />
+        <activity android:name=".Activities.UserSetActivity" />
+        <activity android:name=".Activities.DownloadActivity" />
+        <activity android:name=".Activities.LoadActivity" />
+        <activity android:name=".Adapter.ContentAdapter" />
+        <activity android:name=".Activities.RegisterActivity" />
+        <activity android:name=".Activities.PersonalActivity" />
+        <activity android:name=".Activities.UploadActivity" />
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="edu.scujcc.pricloud.Activities.MainActivity" />
-
+        <activity android:name=".Activities.MyFilesActivity" />
     </application>
 
 </manifest>

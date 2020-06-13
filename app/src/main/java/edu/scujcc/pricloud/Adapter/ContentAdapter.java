@@ -15,12 +15,12 @@ import edu.scujcc.pricloud.Lab.FolderLab;
 import edu.scujcc.pricloud.Model.MyOSSFile;
 import edu.scujcc.pricloud.R;
 
-public class contentAdapter extends RecyclerView.Adapter<contentAdapter.contentRowHolder> {
+public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.contentRowHolder> {
     private FolderLab lab = FolderLab.getInstance() ;
     private Context context;
     private ContentClickListener listener;
 
-    public contentAdapter(ContentClickListener lis, Context context) {
+    public ContentAdapter(ContentClickListener lis, Context context) {
         this.listener= lis;
         this.context =  context;
     }
