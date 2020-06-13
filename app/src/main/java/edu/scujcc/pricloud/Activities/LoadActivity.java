@@ -1,4 +1,4 @@
-package edu.scujcc.pricloud.Activitys;
+package edu.scujcc.pricloud.Activities;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;

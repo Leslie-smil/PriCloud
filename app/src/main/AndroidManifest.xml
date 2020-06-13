@@ -20,24 +20,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="edu.scujcc.pricloud.Activitys.SpManagerActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.UserInfoActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.RecycleActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.SetingActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.OverLoadActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.LoadActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.SpManagerActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.UserInfoActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.RecycleActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.SetingActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.OverLoadActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.LoadActivity" />
         <activity android:name="edu.scujcc.pricloud.Adapter.contentAdapter" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.RegisterActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.PersonalActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.UpLoadActivity" />
-        <activity android:name="edu.scujcc.pricloud.Activitys.LoginActivity">
+        <activity android:name="edu.scujcc.pricloud.Activities.RegisterActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.PersonalActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.UpLoadActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="edu.scujcc.pricloud.Activitys.MainActivity" />
+        <activity android:name="edu.scujcc.pricloud.Activities.MainActivity" />
 
     </application>
 
