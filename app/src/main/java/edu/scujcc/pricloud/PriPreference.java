@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import edu.scujcc.pricloud.Lab.UserLab;
+import edu.scujcc.pricloud.Model.Configure;
+import edu.scujcc.pricloud.Model.MyOSSFile;
+
 /**
  * 处理Share Preference中保存的数据
  *
@@ -42,10 +46,10 @@ public class PriPreference {
         Log.d("TAG", "saveConfigure: " + configure.toString());
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(UserLab.USER_TOKEN, configure.getToken());
-        editor.putString(File.INTERNALENDPOINT, configure.getInternalendpoint());
-        editor.putString(File.BUKCKETNAME, configure.getBucketName());
-        editor.putString(File.ACCESSKEYID, configure.getAccessKeyId());
-        editor.putString(File.ACCESSKEYIDSECRET, configure.getAccessKeySecret());
+        editor.putString(MyOSSFile.INTERNALENDPOINT, configure.getInternalendpoint());
+        editor.putString(MyOSSFile.BUKCKETNAME, configure.getBucketName());
+        editor.putString(MyOSSFile.ACCESSKEYID, configure.getAccessKeyId());
+        editor.putString(MyOSSFile.ACCESSKEYIDSECRET, configure.getAccessKeySecret());
         editor.apply();
     }
 
@@ -55,10 +59,10 @@ public class PriPreference {
 
     public Configure getConfigure() {
         Configure configure = new Configure();
-        configure.setInternalendpoint(preferences.getString(File.INTERNALENDPOINT, ""));
-        configure.setBucketName(preferences.getString(File.BUKCKETNAME, ""));
-        configure.setAccessKeyId(preferences.getString(File.ACCESSKEYID, ""));
-        configure.setAccessKeySecret(preferences.getString(File.ACCESSKEYIDSECRET, ""));
+        configure.setInternalendpoint(preferences.getString(MyOSSFile.INTERNALENDPOINT, ""));
+        configure.setBucketName(preferences.getString(MyOSSFile.BUKCKETNAME, ""));
+        configure.setAccessKeyId(preferences.getString(MyOSSFile.ACCESSKEYID, ""));
+        configure.setAccessKeySecret(preferences.getString(MyOSSFile.ACCESSKEYIDSECRET, ""));
         return configure;
     }
 
